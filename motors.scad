@@ -364,8 +364,16 @@ module unite_my6812() {
   union() {
     // Shaft + sprocket end.
     translate([40.25, 0, 0])
-      rotate([0, 90, 0])
-        cylinder(r=34, h=9.5, center=true);
+      difference() {
+        rotate([0, 90, 0])
+          cylinder(r=34, h=9.5, center=true);
+        for (x_angle = [0 : 120 : 240]) {
+          rotate([x_angle, 0, 0])
+            translate([0, 0, 21.5])
+              rotate([0, 90, 0])
+                cylinder(r=2.5, h=9.6, center=true);
+        }
+      }
     // Rear end.
     translate([-40, 0, 0])
       union() {
@@ -399,7 +407,7 @@ module unite_my6812() {
 
 // Test renders.
 
-yellow_dc_gearmotor_straight();
+*yellow_dc_gearmotor_straight();
 
 *denso_power_window_motor_L();
 
@@ -437,7 +445,7 @@ yellow_dc_gearmotor_straight();
 }
 
 // Unite MY6812 with measurements.
-*union() {
+union() {
   unite_my6812();
   color("green")
   union() {
