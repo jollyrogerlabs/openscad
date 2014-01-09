@@ -12,7 +12,7 @@ $fs=0.9;
 /*
  * Perforated, galvanized thin angle; available from Home Depot.
  */
-module galvanized_angle_1(length=180) {
+module galvanized_angle_1(length=180, odd_holes=true) {
   color("gray")
   difference() {
     union() {
@@ -24,12 +24,33 @@ module galvanized_angle_1(length=180) {
     union() {
       for (y_offset = [0 : 25.5 : length / 2]) {
         for (y_mult = [-1 : 2 : 1]) {
-          translate([0, y_mult * y_offset, -15.5])
-            cylinder(r=5, h=1.5, center=true);
-          translate([-15.5, y_mult * y_offset, 0])
-            rotate([0, 90, 0])
+          if (odd_holes) {
+            // Odd number of perforations, with one hole
+            // centered at 0.
+            translate([0, y_mult * y_offset, -15.5])
               cylinder(r=5, h=1.5, center=true);
+            translate([-15.5, y_mult * y_offset, 0])
+              rotate([0, 90, 0])
+                cylinder(r=5, h=1.5, center=true);
+          }
+          else {
+            // Even number of perforations, with 0 point
+            // centered between 2 holes.
+            translate([0, (y_mult * y_offset) + 12.25, -15.5])
+              cylinder(r=5, h=1.5, center=true);
+            translate([-15.5, (y_mult * y_offset) + 12.25, 0])
+              rotate([0, 90, 0])
+                cylinder(r=5, h=1.5, center=true);
+          }
         }
+      }
+      if (!odd_holes) {
+        // Add an extra hole in the -y direction.
+        translate([0, (-length / 2) + 12.25, -15.5])
+          cylinder(r=5, h=1.5, center=true);
+        translate([-15.5, (-length / 2) + 12.25, 0])
+          rotate([0, 90, 0])
+            cylinder(r=5, h=1.5, center=true);
       }
     }
   }
@@ -293,13 +314,13 @@ module 2_inch_u_bolt_plate() {
 
 // Test renders.
 
-*galvanized_angle_1(length=700);
+galvanized_angle_1(length=200, odd_holes=false);
 
 *galvanized_connector_1();
 
 *galvanized_connector_2();
 
-2_inch_half_u_strap();
+*2_inch_half_u_strap();
 
 *half_inch_2_hole_strap();
 
