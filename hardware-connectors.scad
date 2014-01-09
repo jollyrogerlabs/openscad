@@ -312,9 +312,32 @@ module 2_inch_u_bolt_plate() {
   }
 }
 
+module 4_inch_corner_brace_leg() {
+  color("silver")
+  difference() {
+    cube([22.5, 3, 101], center=true);
+    union() {
+      translate([0, 0, 41.5])
+        rotate([90, 0, 0])
+          cylinder(r=4, h=4, center=true);
+      translate([0, 0, -24.5])
+        rotate([90, 0, 0])
+          cylinder(r=4, h=4, center=true);
+    }
+  }
+}
+
+module 4_inch_corner_brace() {
+  translate([0, -49, 0])
+    4_inch_corner_brace_leg();
+  translate([0, 0, -49])
+    rotate([270, 0, 0])
+      4_inch_corner_brace_leg();
+}
+
 // Test renders.
 
-galvanized_angle_1(length=200, odd_holes=false);
+*galvanized_angle_1(length=200, odd_holes=false);
 
 *galvanized_connector_1();
 
@@ -331,3 +354,5 @@ galvanized_angle_1(length=200, odd_holes=false);
 *2_inch_u_bolt();
 
 *2_inch_u_bolt_plate();
+
+4_inch_corner_brace();
