@@ -295,7 +295,8 @@ module ig32_gear_motor_with_sprocket_and_plate() {
 }
 
 /*
- * This is a Unite model MY1016 motor for electric scooter or go-kart.
+ * This is a Unite model MY1016 250 Watt motor for
+ * electric scooter or go-kart.
  */
 module unite_my1016() {
   color("gray")
@@ -357,12 +358,13 @@ module unite_my1016() {
 
 
 /*
- * This is a Unite model MY6812 motor for electric scooter or go-kart.
+ * This is a Unite model MY6812 100 Watt motor for
+ * electric scooter or go-kart.
  */
 module unite_my6812() {
   color("gray")
   union() {
-    // Shaft + sprocket end.
+    // Shaft + sprocket end
     translate([40.25, 0, 0])
       difference() {
         rotate([0, 90, 0])
@@ -371,7 +373,7 @@ module unite_my6812() {
           rotate([x_angle, 0, 0])
             translate([0, 0, 21.5])
               rotate([0, 90, 0])
-                cylinder(r=2.5, h=9.6, center=true);
+                cylinder(r=2.5, h=10, center=true);
         }
       }
     // Rear end.
@@ -386,11 +388,11 @@ module unite_my6812() {
   }
   color("black")
   union() {
-    // Central main body.
+    // Central main body
     translate([0, 0, 0])
       rotate([0, 90, 0])
         cylinder(r=34, h=71, center=true);
-    // Shaft + Sprocket.
+    // Shaft + Sprocket
     translate([57.5, 0, 0])
       union() {
         // Shaft
@@ -402,6 +404,16 @@ module unite_my6812() {
           rotate([0, 90, 0])
             cylinder(r=12, h=2.75, center=true);
       }
+    // Power cord
+    translate([35.5, 5, -34])
+      rotate([5, 0, 0])
+        cube([13, 13, 4], center=true);
+    translate([35.5, 5, -38])
+      rotate([5, 0, 0])
+        cylinder(r=3.5, h=8, center=true);
+    translate([0, 5.25, -41])
+      rotate([0, 90, 0])
+        cylinder(r=3.5, h=77.5, center=true);
   }
 }
 
