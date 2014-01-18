@@ -179,6 +179,7 @@ module half_inch_2_hole_strap() {
   color("gray")
   translate([0, 0, -1.25])
     union() {
+      // Loop that goes over or under the conduit.
       rotate([0, 270, 0])
         difference() {
           cylinder(r=10.5, h=12.5, center=true);
@@ -188,6 +189,7 @@ module half_inch_2_hole_strap() {
               cube([12, 25, 13], center=true);
           }
         }
+      // Attachment points
       for (y_mult = [-1 : 2 : 1]) {
         translate([0, y_mult * 9.75, -4])
           cube([12.5, 1.5, 8], center=true);
@@ -215,19 +217,21 @@ module half_inch_2_hole_strap() {
 module 2_inch_plastic_u_strap() {
   color("gray")
   union() {
+    // Loop that goes over or under the conduit.
     rotate([90, 0, 0])
       difference() {
         union() {
           cylinder(r=33, h=19, center=true);
           translate([0, -16, 0])
-          cube([66, 34, 19], center=true);
+            cube([66, 34, 19], center=true);
         }
         union() {
-          cylinder(r=30, h=19.5, center=true);
+          cylinder(r=30, h=20, center=true);
           translate([0, -19, 0])
-            cube([60, 34, 19.5], center=true);
+            cube([60, 34, 20], center=true);
         }
       }
+    // Attachment points
     for (x_mult = [-1 : 2 : 1]) {
       translate([x_mult * 38.9, 0, -31])
         rotate([0, 90 - (x_mult * 90), 0])
@@ -253,6 +257,45 @@ module 2_inch_plastic_u_strap() {
 }
 
 /*
+ * Yet another connector designed for electrical conduit and
+ * available from Home Depot.
+ */
+module 2_and_half_inch_metal_u_strap() {
+  color("gray")
+  union() {
+    // Loop that goes over or under the conduit.
+    rotate([90, 0, 0])
+      difference() {
+        union() {
+          cylinder(r=37.5, h=25.5, center=true);
+          translate([0, -15, 0])
+            cube([75, 35, 25.5], center=true);
+        }
+        union() {
+          cylinder(r=36.75, h=27, center=true);
+          translate([0, -20, 0])
+            cube([73.5, 36, 27], center=true);
+        }
+      }
+    // Attachment points
+    for (x_mult = [-1 : 2 : 1]) {
+      translate([x_mult * 52.75, 0, -31.75])
+        difference() {
+          cube([32, 25.5, 1.5], center=true);
+          translate([x_mult * 8, 0, 0])
+            cylinder(r=5, h=3, center=true);
+        }
+      translate([x_mult * 68.5, 0, -31.75])
+        hull() {
+          cube([0.5, 25.5, 1.5], center=true);
+          translate([3, 0, 0])
+            cube([0.5, 20, 1.5], center=true);
+        }
+    }
+  }
+}
+
+/*
  * Generic piece of angle aluminum which can be ordered
  * in various sizes from e.g. onlinemetals.com.
  */
@@ -270,7 +313,7 @@ module angle_aluminum(width=152.5,
 }
 
 /*
- * U-bolt for securing 2" PVC pipe.
+ * U-bolt for securing 2" PVC pipe available from Home Depot.
  */
 module 2_inch_u_bolt() {
   color("gray")
@@ -291,7 +334,7 @@ module 2_inch_u_bolt() {
 }
 
 /*
- * Plate for 2" U-bolt.
+ * Plate for 2" U-bolt available from Home Depot.
  */
 module 2_inch_u_bolt_plate() {
   color("gray")
@@ -327,12 +370,24 @@ module 4_inch_corner_brace_leg() {
   }
 }
 
+/*
+ * 4 inch corner brace available from Home Depot.
+ */
 module 4_inch_corner_brace() {
   translate([0, -49, 0])
     4_inch_corner_brace_leg();
   translate([0, 0, -49])
     rotate([270, 0, 0])
       4_inch_corner_brace_leg();
+}
+
+/*
+ * Tie-plate available from Home Depot.
+ * NOTE: holes not modeled.
+ */
+module tie_plate() {
+  color("gray")
+  cube([178, 79, 1], center=true);
 }
 
 // Test renders.
@@ -349,10 +404,15 @@ module 4_inch_corner_brace() {
 
 *2_inch_plastic_u_strap();
 
+*2_and_half_inch_metal_u_strap();
+
 *angle_aluminum();
 
 *2_inch_u_bolt();
 
 *2_inch_u_bolt_plate();
 
-4_inch_corner_brace();
+*4_inch_corner_brace();
+
+tie_plate();
+
