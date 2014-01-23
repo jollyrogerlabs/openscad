@@ -305,7 +305,7 @@ module angle_aluminum(width=152.5,
                       thickness=6.35) {
   color("gray")
   union() {
-    translate([0, 0, -height / 2])
+    translate([0, 0, -((height / 2) - (thickness / 2))])
       cube([width, length, thickness], center=true);
     translate([(width / 2) - (thickness / 2), 0, 0])
       cube([thickness, length, height], center=true);
