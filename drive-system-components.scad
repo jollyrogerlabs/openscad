@@ -6,6 +6,7 @@
 // License: LGPL 2.1 or later
 
 use <hexagon.scad>
+use <bolts-and-screws.scad>
 
 $fn=0;
 $fa=0.01;
@@ -140,6 +141,50 @@ module dune_buggy_chain_tensioner(arm_angle=0) {
   }
 }
 
+/*
+ * Razor Part Number: W20159460079
+ *
+ * Chain tensioner for E90/E100 scooter.
+ */
+module scooter_chain_tensioner() {
+  translate([-23, 0, 5.88])
+  union() {
+    color("silver")
+    union() {
+      difference() {
+        union() {
+          cylinder(r=6, h=6, center=true);
+          translate([0, 0, -4.25])
+            cylinder(r=10, h=2.75, center=true);
+        }
+        cylinder(r=4, h=20, center=true);
+      }
+      translate([15.7, 0, -4.25])
+        cube([15, 11, 2.75], center=true);
+      translate([28.15, 0, -10.375])
+        rotate([0, 48, 0])
+          cube([17.75, 11, 2.75], center=true);
+      translate([37.05, 0, -16.5])
+        cube([8, 11, 2.75], center=true);
+      translate([46, 0, -16.5])
+        cylinder(r=8, h=2.75, center=true);
+      translate([46, 0, -14.6])
+        cylinder(r=4, h=1, center=true);
+    }
+    color("brown")
+    union() {
+      translate([46, 0, -6.1])
+        cylinder(r=8, h=16, center=true);
+      translate([46, 0, -13.35])
+        cylinder(r=10.5, h=1.5, center=true);
+      translate([46, 0, 1.15])
+        cylinder(r=10.5, h=1.5, center=true);
+    }
+    translate([46, 0, 3.25])
+      m5locknut();
+  }
+}
+
 module number_25_chain_55_tooth_sprocket() {
   color("silver")
   difference() {
@@ -172,4 +217,6 @@ module number_25_chain_55_tooth_sprocket() {
 
 *dune_buggy_chain_tensioner(arm_angle=45);
 
-number_25_chain_55_tooth_sprocket();
+scooter_chain_tensioner();
+
+*number_25_chain_55_tooth_sprocket();
