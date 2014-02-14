@@ -684,6 +684,15 @@ module 3_8x1_2_inch_bolt() {
 }
 
 /*
+ * Standard-sized 3/8" x 5/8" hex bolt.
+ * NOTE: the 5/8" length does not include the head.
+ */
+module 3_8x5_8_inch_bolt() {
+  color("gray")
+  generic_bolt(hs=8, hh=5.4, sr=4.66, sh=16);
+}
+
+/*
  * Standard-sized 3/8" x 1 1/2" hex bolt.
  * NOTE: the 1 1/2" length does not include the head.
  */
