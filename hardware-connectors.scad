@@ -279,13 +279,14 @@ module 2_and_half_inch_metal_u_strap() {
       }
     // Attachment points
     for (x_mult = [-1 : 2 : 1]) {
-      translate([x_mult * 52.75, 0, -31.75])
+      translate([x_mult * 53, 0, -31.75])
         difference() {
           cube([32, 25.5, 1.5], center=true);
-          translate([x_mult * 8, 0, 0])
+          translate([x_mult * 10.5, 0, 0])
             cylinder(r=5, h=3, center=true);
         }
-      translate([x_mult * 68.5, 0, -31.75])
+      translate([x_mult * 69.25, 0, -31.75])
+        rotate([0, 90 - (x_mult * 90), 0])
         hull() {
           cube([0.5, 25.5, 1.5], center=true);
           translate([3, 0, 0])
