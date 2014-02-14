@@ -142,9 +142,39 @@ module dune_buggy_chain_tensioner(arm_angle=0) {
 }
 
 /*
+ * Spring for Razor Part Number: W20159460079
+ */
+module scooter_chain_tensioner_spring() {
+  color("silver")
+  
+  union() {
+    difference() {
+      cylinder(r=8.5, h=3, center=true);
+      cylinder(r=7, h=3.5, center=true);
+    }
+    // Upper portion which rests against the brake
+    translate([-9.75, 0, 4.5])
+      cylinder(r=0.75, h=7, center=true);
+    translate([-7, 3.25, 1.5])
+      rotate([0, 90, 50])
+        cylinder(r=0.75, h=8, center=true);
+    // Lower portion which raps around tensioner arm
+    translate([12, -1, -1.5])
+      rotate([0, 90, 315])
+        cylinder(r=0.75, h=18, center=true);
+    translate([19, -8, -3.75])
+      rotate([340, 335, 0])
+        cylinder(r=0.75, h=6, center=true);
+    translate([20, -5, -6.5])
+      rotate([90, 0, 0])
+        cylinder(r=0.75, h=8, center=true);
+  }
+}
+
+/*
  * Razor Part Number: W20159460079
  *
- * Chain tensioner for E90/E100 scooter.
+ * Chain tensioner for Trikke scooter.
  */
 module scooter_chain_tensioner() {
   translate([-23, 0, 5.88])
@@ -170,6 +200,10 @@ module scooter_chain_tensioner() {
         cylinder(r=8, h=2.75, center=true);
       translate([46, 0, -14.6])
         cylinder(r=4, h=1, center=true);
+
+      // Tensioner spring is also centered on
+      // the socket.
+      scooter_chain_tensioner_spring();
     }
     color("brown")
     union() {
@@ -216,6 +250,8 @@ module number_25_chain_55_tooth_sprocket() {
 *dune_buggy_chain_tensioner_arm();
 
 *dune_buggy_chain_tensioner(arm_angle=45);
+
+*scooter_chain_tensioner_spring();
 
 scooter_chain_tensioner();
 
