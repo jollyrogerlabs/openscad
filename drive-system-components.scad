@@ -177,7 +177,6 @@ module scooter_chain_tensioner_spring() {
  * Chain tensioner for Trikke scooter.
  */
 module scooter_chain_tensioner() {
-  translate([-23, 0, 5.88])
   union() {
     color("silver")
     union() {
