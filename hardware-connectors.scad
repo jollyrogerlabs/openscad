@@ -9,6 +9,8 @@ $fn=0;
 $fa=0.01;
 $fs=0.9;
 
+use <bolts-and-screws.scad>
+
 /*
  * Perforated, galvanized thin angle; available from Home Depot.
  */
@@ -257,6 +259,32 @@ module 2_inch_plastic_u_strap() {
 }
 
 /*
+ * Carlon model E978JC 2" PVC fixture, available from Home Depot.
+ *
+ * NOTE: sawtooth details not shown.
+ */
+module carlon_2_inch_pvc_fixture() {
+  color("gray")
+  difference() {
+    union() {
+      cube([73, 73, 25], center=true);
+      translate([0, -17.5, 0])
+        cube([100, 38, 25], center=true);
+    }
+    union() {
+      cylinder(r=30, h=26, center=true);
+      for (x_mult = [-1 : 2 : 1]) {
+        translate([x_mult * 44.5, -18, 0])
+          rotate([90, 0, 0])
+            m5bolt_socket_loose(l=40);
+        translate([x_mult * 48.5, 0.95, 0])
+          cube([10, 2, 14], center=true);
+      }
+    }
+  }
+}
+
+/*
  * Yet another connector designed for electrical conduit and
  * available from Home Depot.
  */
@@ -405,6 +433,8 @@ module tie_plate() {
 
 *2_inch_plastic_u_strap();
 
+carlon_2_inch_pvc_fixture();
+
 *2_and_half_inch_metal_u_strap();
 
 *angle_aluminum();
@@ -415,5 +445,5 @@ module tie_plate() {
 
 *4_inch_corner_brace();
 
-tie_plate();
+*tie_plate();
 
