@@ -468,9 +468,19 @@ module 4_40_nut_socket(l=18, extend=0) {
   translate([0, 0, -(l + 2.5 + extend) / 2])
     union() {
       translate([0, 0, l])
-        hexagon(s=3.8, h=2.5 + extend);
+        hexagon(s=4.1, h=2.5 + extend);
       cylinder(r=1.7, h=l);
     }
+}
+
+/*
+ * A socket to fit the head of the M6 size bolt with room
+ * for the bolt to be tightened, with variable length.
+ * er = the amount of extra radius around the head
+ * eh = the amount of extra height for the space around the head
+ */
+module 4_40_bolt_socket_loose(l=20, er=0, eh=0) {
+  generic_loose_socket(hr=3.25 + er, hh=2.1 + eh, sr=1.7, sh=l);
 }
 
 
