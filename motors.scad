@@ -113,6 +113,103 @@ module yellow_dc_gearmotor_straight() {
   }
 }
 
+module solarbotics_gearmotor_straight() {
+  yellow_dc_gearmotor_straight();
+}
+
+module solarbotics_gearmotor_angled() {
+  color("yellow")
+  union() {
+    // Main body, set at an angle to the motor mount; contains the
+    // gearbox and mounts the axles.
+    difference() {
+      cube([41.8, 13.7, 22.7], center=true);
+      // Mounting holes.
+      union() {
+        for (z_mult = [-1 : 2 : 1]) {
+          translate([18.15, 0, z_mult * 8.75])
+            rotate([90, 0, 0])
+            cylinder(r=1.25, h=13.8, center=true);
+        }
+      }
+    }
+    // Anchors for motor straps.
+    for (x_mult = [-1 : 2 : 1]) {
+      translate([-12.4 + (x_mult * 11), 9.6, 0])
+        rotate([90, 0, 0])
+          cylinder(r=2, h=5.5, center=true);
+      translate([-12.4 + (x_mult * 9), 9.6, 0])
+        cube([3.5, 5.5, 4], center=true);
+    }
+    // Base of motor holder.
+    translate([-12.4, 14.6, 0])
+      intersection() {
+        cube([17, 15.5, 22.7], center=true);
+        rotate([90, 0, 0])
+          cylinder(r=11.25, h=15.5, center=true);
+      }
+    // Small round protrusion on the rear of the main body.
+    translate([1.34, -7.85, 0])
+      rotate([90, 0, 0])
+        cylinder(r=1.95, h=2, center=true);
+    // Base of encoder mount.
+    translate([9.86, 8.35, 0])
+      rotate([90, 0, 0])
+        cylinder(r=3.5, h=3, center=true);
+  }
+  // Portion of the motor body between the motor mount and the motor
+  // strap.
+  color("silver")
+    translate([-12.4, 26.6, 0])
+      intersection() {
+        cube([15, 8.5, 20], center=true);
+        rotate([90, 0, 0])
+          cylinder(r=10, h=8.5, center=true);
+      }
+
+  color("white")
+  union() {
+    // Axle.
+    translate([9.86, -11.3, 0])
+      intersection() {
+        rotate([90, 0, 0])
+          cylinder(r=3.5, h=8.9, center=true);
+      cube([4.73, 9, 7.1], center=true);
+    }
+    // Encoder mount (NOTE: should not be loaded heavily).
+    translate([9.86, 16.65, 0])
+      intersection() {
+        rotate([90, 0, 0])
+          cylinder(r=3.5, h=8.9, center=true);
+      cube([4.73, 9, 7.1], center=true);
+    }
+    translate([9.86, 11.475, 0])
+      rotate([90, 0, 0])
+        cylinder(r=3.5, h=3.25, center=true);
+    translate([-12.4, 33.5, 0])
+      intersection() {
+        cube([15, 5.25, 20], center=true);
+        rotate([90, 0, 0])
+          cylinder(r=10, h=5.25, center=true);
+      }
+    for (x_mult = [-1 : 2 : 1]) {
+      translate([-12.4 + (x_mult * 11), 12.35, 0])
+        rotate([90, 0, 0])
+          cylinder(r=2.5, h=2.5, center=true);
+      translate([-12.4 + (x_mult * 9), 12.35, 0])
+        cube([4.25, 2.5, 7], center=true);
+      translate([-12.4 + (x_mult * 9), 25.7, 0])
+        cube([1, 24, 7], center=true);
+    }
+    translate([-12.4, 37.25, 0])
+      union() {
+        cube([19, 1, 7], center=true);
+        rotate([90, 0, 0])
+          cylinder(r=8, h=1, center=true);
+      }
+  }
+}
+
 /*
  * This is a Denso left side power window motor.  Some details are not
  * modeled precisely.
@@ -417,6 +514,36 @@ module unite_my6812() {
   }
 }
 
+NEMA_23_WIDTH = 49.25;
+
+module nema_23_stepper_motor(l=100) {
+  //  color("black")
+  difference() {
+    cube([NEMA_23_WIDTH, NEMA_23_WIDTH, l], center=true);
+    for (x_mult = [-1 : 2 : 1]) {
+      for (y_mult = [-1 : 2 : 1]) {
+        translate([x_mult * ((NEMA_23_WIDTH / 2) - 4.9),
+                   y_mult * ((NEMA_23_WIDTH / 2) - 4.9),
+                   -3.6])
+          cube([10.1, 10.1, 93], center=true);
+        translate([x_mult * ((NEMA_23_WIDTH / 2) - 4.9),
+                   y_mult * ((NEMA_23_WIDTH / 2) - 4.9),
+                   46.5])
+          cylinder(r=2, h=7.5, center=true);
+      }
+    }
+  }
+  translate([0, 0, (l / 2) + 0.75])
+    cylinder(r=19, h=1.5, center=true);
+  color("silver")
+  union() {
+    translate([0, 0, (l / 2) + 11.5])
+      cylinder(r=3, h=20, center=true);
+    translate([0, 0, -(l / 2) - 7])
+      cylinder(r=3, h=20, center=true);
+  }
+}
+
 // Test renders.
 
 *yellow_dc_gearmotor_straight();
@@ -424,6 +551,10 @@ module unite_my6812() {
 *denso_power_window_motor_L();
 
 *ig32_gear_motor_with_sprocket_and_plate();
+
+*nema_23_stepper_motor();
+
+solarbotics_gearmotor_angled();
 
 // Unite MY1016 with measurements.
 *union() {
@@ -457,7 +588,7 @@ module unite_my6812() {
 }
 
 // Unite MY6812 with measurements.
-union() {
+*union() {
   unite_my6812();
   color("green")
   union() {
