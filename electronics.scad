@@ -342,11 +342,11 @@ module rocker_switch() {
 }
 
 /*
- * Model of Sharp GP1S53VJ000F optointerrupter.
+ * Model of Sharp GP1S53VJ000F photointerrupter.
  * NOTE: dimensions based on data sheet.  Ignored minor
  * details at the tops of the arms.
  */
-module optointerrupter_gp1s53vj000f() {
+module photointerrupter_gp1s53vj000f() {
   color("black")
   union() {
     for (x_mult = [-1 : 2 : 1]) {
