@@ -141,9 +141,9 @@ module 2_inch_pvc_tee() {
     }
     union() {
       rotate([0, 90, 0])
-        cylinder(r=LASCO_ID/2, h=134, center=true);
+        cylinder(r=LASCO_ID/2, h=133.2, center=true);
       translate([0, 0, 35])
-        cylinder(r=LASCO_ID/2, h=66, center=true);
+        cylinder(r=LASCO_ID/2, h=65.2, center=true);
     }
   }
 }
