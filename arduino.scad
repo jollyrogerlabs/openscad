@@ -5,7 +5,6 @@
 //
 // License: LGPL 2.1 or later
 
-use <centered-primitives.scad>
 use <electronics.scad>
 
 // NOTE: details of the circuits on the board are not provided.
@@ -14,7 +13,7 @@ use <electronics.scad>
 // length (y-axis): 108mm
 // height (z-axis): 13mm
 //
-// TODO: add details of components on the board.
+// FIXME: add details of hanging pins below the board.
 module arduino_mega() {
   // Center the model.
   translate([-26.5, -54, -6.5])
@@ -102,29 +101,29 @@ module arduino_uno_r2() {
         union() {
           // Main body.
           translate([0, -1.5, 0.875])
-            c_cube([53.25, 66, 1.75]);
+            cube([53.25, 66, 1.75], center=true);
           // Extra portion at the front for forward mounting holes.
           translate([5.125, 33, 0.875])
             hull() {
-              c_cube([33, 2, 2]);
+              cube([33, 2, 2], center=true);
               translate([0, -2.5, 0])
-                c_cube([38, 2, 2]);
+                cube([38, 2, 2], center=true);
             }
         }
         // Holes for connections.
         union() {
           // Right rear.
           translate([24.125, -20.25, 0.875])
-            c_cylinder(h=3, r=1.75);
+            cylinder(h=3, r=1.75, center=true);
           // Left rear.
           translate([-24.125, -18.25, 0.875])
-            c_cylinder(h=3, r=1.75);
+            cylinder(h=3, r=1.75, center=true);
           // Right forward.
           translate([18.25, 32, 0.875])
-            c_cylinder(h=3, r=1.75);
+            cylinder(h=3, r=1.75, center=true);
           // Left forward.
           translate([-9.25, 32, 0.875])
-            c_cylinder(h=3, r=1.75);
+            cylinder(h=3, r=1.75, center=true);
         }
       }
     
@@ -155,12 +154,12 @@ module arduino_uno_r2() {
       // Forward capacitor.
       color("gray")
       translate([22.125, -5.5, 4])
-        c_cylinder(r=3, h=5);
+        cylinder(r=3, h=5, center=true);
 
       // Rear capacitor.
       color("gray")
       translate([22.125, -13, 4])
-        c_cylinder(r=3, h=5);
+        cylinder(r=3, h=5, center=true);
 
       // Forward male headers.
       translate([-1.125, 31, 2])
@@ -193,17 +192,17 @@ arduino_mega();
 *union() {
   %translate([-25, -25.5, 2])
     rotate([0, 0, 90])
-      c_cube([18, 2, 2]);
+      cube([18, 2, 2], center=true);
 
   %translate([25, -26.5, 2])
      rotate([0, 0, 90])
-       c_cube([16, 2, 2]);
+       cube([16, 2, 2], center=true);
 
   %translate([21.5, 35, 2])
-     c_cube([10, 2, 2]);
+     cube([10, 2, 2], center=true);
   %color("red")
      translate([4.5, 32, 2])
-       c_cube([31, 2, 2]);
+       cube([31, 2, 2], center=true);
 }
 
 *arduino_uno_r2();
