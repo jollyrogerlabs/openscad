@@ -384,6 +384,9 @@ module 2_inch_u_bolt_plate() {
   }
 }
 
+/*
+ * Support module for 4 inch corner brace.
+ */
 module 4_inch_corner_brace_leg() {
   color("silver")
   difference() {
@@ -411,6 +414,92 @@ module 4_inch_corner_brace() {
 }
 
 /*
+ * Support module for gusseted 4 inch corner brace.
+ */
+module right_triangle(leg=1, h=1) {
+  linear_extrude(height=h)
+    polygon(points=[[-(leg / 2),-(leg / 2)],
+                    [-(leg / 2),(leg / 2)],
+                    [(leg / 2),-(leg / 2)]],
+            paths=[[0,1,2]]);
+}
+
+GUSSETED_4_INCH_CORNER_BRACE_HEIGHT = 25;
+GUSSETED_4_INCH_CORNER_BRACE_LEG_WIDTH = 99;
+GUSSETED_4_INCH_CORNER_BRACE_LEG_HEIGHT = 2.5;
+GUSSETED_4_INCH_CORNER_BRACE_HOLE_SPACING = 65;
+
+/*
+ * Support module for gusseted 4 inch corner brace.
+ */
+module 4_inch_gusseted_corner_brace_leg() {
+  difference() {
+    cube([GUSSETED_4_INCH_CORNER_BRACE_LEG_WIDTH,
+          GUSSETED_4_INCH_CORNER_BRACE_HEIGHT,
+          GUSSETED_4_INCH_CORNER_BRACE_LEG_HEIGHT], center=true);
+    union() {
+      for (x_mult = [-1 : 2 : 1]) {
+        translate([x_mult * 47.25, 9.25, -1.5])
+          rotate([0, 0, 225 - (x_mult * 45)])
+            right_triangle(leg=7, h=3.5);
+        translate([7 +
+                   (x_mult * (GUSSETED_4_INCH_CORNER_BRACE_HOLE_SPACING / 2)),
+                   1, 0])
+          cylinder(r=3.5, h=3.5, center=true);
+      }
+    }
+  }
+  // Small measurement spheres positioned based on different
+  // measurements than the original, added to check correctness.
+%  union() {
+    translate([-50.5 + 25.5 - 0.5, 1, 0])
+      sphere(r=0.5);
+    translate([50.5 - 11.5 + 0.5, 1, 0])
+      sphere(r=0.5);
+  }
+}
+
+GUSSETED_4_INCH_CORNER_BRACE_WIDTH = 101;
+GUSSETED_4_INCH_CORNER_TRIANGLE_BASE_HEIGHT = 3;
+
+/*
+ * Everbilt model 831-301 4" gusseted corner brace, available from
+ * Home Depot.
+ */
+module 4_inch_gusseted_corner_brace() {
+  color("silver")
+  difference() {
+    union() {
+      // Triangular gusset plate.
+      translate([1, 1,
+                 -(GUSSETED_4_INCH_CORNER_BRACE_HEIGHT / 2)])
+        right_triangle(leg=GUSSETED_4_INCH_CORNER_BRACE_WIDTH,
+                       h=GUSSETED_4_INCH_CORNER_TRIANGLE_BASE_HEIGHT);
+      // Angle legs.
+      translate([-(GUSSETED_4_INCH_CORNER_BRACE_LEG_WIDTH / 2),
+                 GUSSETED_4_INCH_CORNER_BRACE_WIDTH -
+                 GUSSETED_4_INCH_CORNER_BRACE_LEG_WIDTH,
+                 0])
+        rotate([90, 0, 90])
+          4_inch_gusseted_corner_brace_leg();
+      translate([GUSSETED_4_INCH_CORNER_BRACE_WIDTH -
+                 GUSSETED_4_INCH_CORNER_BRACE_LEG_WIDTH,
+                 -(GUSSETED_4_INCH_CORNER_BRACE_LEG_WIDTH / 2),
+                 0])
+        rotate([90, 0, 0])
+          4_inch_gusseted_corner_brace_leg();
+    }
+    union() {
+      // Attachment holes in triangular plate.
+      translate([-30.25, 18.25, 1.25])
+        cylinder(r=3.75, h=3, center=true);
+      translate([18.25, -30.25, 1.25])
+        cylinder(r=3.75, h=3, center=true);
+    }
+  }
+}
+
+/*
  * Tie-plate available from Home Depot.
  * NOTE: holes not modeled.
  */
@@ -433,7 +522,7 @@ module tie_plate() {
 
 *2_inch_plastic_u_strap();
 
-carlon_2_inch_pvc_fixture();
+*carlon_2_inch_pvc_fixture();
 
 *2_and_half_inch_metal_u_strap();
 
@@ -445,5 +534,6 @@ carlon_2_inch_pvc_fixture();
 
 *4_inch_corner_brace();
 
-*tie_plate();
+4_inch_gusseted_corner_brace();
 
+*tie_plate();
