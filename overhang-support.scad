@@ -5,29 +5,27 @@
 //
 // License: LGPL 2.1 or later
 
-use <centered-primitives.scad>
-
 SUPPORT_WIDTH=0.5;
 
 module overhang_support(width, length, height) {
   for (x_offset = [-(length / 2) : 2 : length / 2]) {
     translate([x_offset, 0, (SUPPORT_WIDTH / 2)])
-      c_cube([0.5, width + 1, SUPPORT_WIDTH]);  
+      cube([0.5, width + 1, SUPPORT_WIDTH], center=true);
   }
   for (y_offset = [-(width / 2) : 2 : width / 2]) {
     translate([0, y_offset, (height / 2) + (SUPPORT_WIDTH / 2)])
-      c_cube([length, SUPPORT_WIDTH, height - SUPPORT_WIDTH]);  
+      cube([length, SUPPORT_WIDTH, height - SUPPORT_WIDTH], center=true);
   }
 }
 
 module overhang_support_2(width, length, height, step=2) {
   for (x_offset = [-(length / 2) : step : length / 2]) {
     translate([x_offset, 0, (SUPPORT_WIDTH / 2)])
-      c_cube([0.75, width + 1, SUPPORT_WIDTH]);  
+      cube([0.75, width + 1, SUPPORT_WIDTH], center=true);
   }
   for (y_offset = [-(width / 2) : step : width / 2]) {
     translate([0, y_offset, (height / 2) + (SUPPORT_WIDTH / 2)])
-      c_cube([length, 0.75, height - SUPPORT_WIDTH]);  
+      cube([length, 0.75, height - SUPPORT_WIDTH], center=true);
   }
 }
 
